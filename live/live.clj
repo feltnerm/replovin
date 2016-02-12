@@ -24,7 +24,7 @@
   (at (m (+ 0.5 beat-num)) (weak-hat))
   (at (m (+ 1.00 beat-num)) (weak-hat))
   (at (m (+ 1.50 beat-num)) (weak-hat))
-  (at (m (+ 2 beat-num)) (hat) (weak-hat))
+  (at (m (+ 2 beat-num)) (hat))
   (at (m (+ 3 beat-num)) (weak-hat))
   (at (m (+ 3.5 beat-num)) (weak-hat))
   (at (m (+ 4 beat-num)) (kick))
