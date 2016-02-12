@@ -1,36 +1,62 @@
 # replovin
+----
 
-FIXME: description
+@WidenEnterprises 48Create Project with Overtone and Shadertone.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Download from http://github.com/feltnerm/reploving.
 
 ## Usage
 
-FIXME: explanation
+### Emacs/CIDER
 
-    $ java -jar replovin-0.1.0-standalone.jar [args]
+Launch a REPL!
 
-## Options
+### Lein
 
-FIXME: listing of options this app accepts.
+```
+lein repl
+```
 
-## Examples
 
-...
+## Playing Music
 
-### Bugs
+```clojure
+user> (repl)
+--> Loading Overtone...
+--> Please boot a server to start making noise:
+    * (boot-server)             ; boot default server (honours config)
+    * (boot-internal-server)    ; boot an internal server
+    * (boot-external-server)    ; boot an external server
+    * (connect-external-server) ; connect to an existing external server
 
-...
+#namespace[repl]
+repl> (play)
+Starting Overtone
+--> Booting internal SuperCollider server...
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+    _____                 __
+   / __  /_  _____  _____/ /_____  ____  ___
+  / / / / | / / _ \/ ___/ __/ __ \/ __ \/ _ \
+ / /_/ /| |/ /  __/ /  / /_/ /_/ / / / /  __/
+ \____/ |___/\___/_/   \__/\____/_/ /_/\___/
+
+   Collaborative Programmable Music. v0.9.1
+
+
+Hey Mfeltner, I feel something magical is only just beyond the horizon...
+
+WE'RE DOIN' IT LIVE!
+#namespace[live]
+live> 
+```
+
+Use the commented out functions to make music! Play around and make some stuff!
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2016 Mark Feltner
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
