@@ -5,7 +5,8 @@
            :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [com.stuartsierra/component "0.3.1"]
-                 [overtone "0.9.1"]]
+                 [overtone "0.9.1"]
+                 [shadertone "0.2.5"]]
   :profiles {
              :dev {:dependencies [[org.clojure/tools.namespace "0.2.11"]]
                    :source-paths ["live"]}

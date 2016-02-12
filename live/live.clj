@@ -4,9 +4,24 @@
             [overtone.inst.drum :as drum]
             [overtone.inst.synth :as synth]
             [overtone.inst.piano :as piano]
+            [shadertone.tone :as t]
             [repl :refer [reset]]))
 
 (println "WE'RE DOIN' IT LIVE!")
+
+(defn start-shadertone
+  [session-name]
+  (println (apply str "Session: " session-name))
+  (let [session-glsl-file (apply str "live/shaders/" session-name ".glsl") ]
+    (println (apply str "Session: " session-glsl-file))
+    (t/start-fullscreen session-glsl-file
+                        :title session-name
+                        :textures [:overtone-audio :previous-frame])))
+
+(defn stop!
+  []
+  (t/stop)
+  (stop))
 
 (definst hat [volume 1.0]
   (let [src (white-noise)
@@ -68,14 +83,20 @@
     )
   )
 
+(comment
+  (start-shadertone "throb")
+  (t/stop)
+  (start-shadertone "spectrograph")
+)
 
 (comment
   (metro-bpm metro 120)
 )
 
 (comment
-  (stop)
+  (stop!)
 )
+
 (comment
   ;; drums
   ;; piano
