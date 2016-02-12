@@ -1,6 +1,6 @@
 (ns overtone-server
-  (:use overtone.core)
-  (:require [com.stuartsierra.component :as component]))
+  (:require [com.stuartsierra.component :as component]
+            [overtone.core :refer [boot-server-and-mixer]]))
 
 (defrecord OvertoneServer []
   component/Lifecycle
