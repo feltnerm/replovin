@@ -34,22 +34,20 @@
 (defn kick []
   (drum/quick-kick :amp 0.5))
 
-(defn phat-beats [m beat-num]
-  (at (m (+ 0 beat-num)) (kick))
-  (at (m (+ 0.5 beat-num)) (weak-hat))
-  (at (m (+ 1.00 beat-num)) (weak-hat))
-  (at (m (+ 1.50 beat-num)) (weak-hat))
-  (at (m (+ 2 beat-num)) (hat))
-  (at (m (+ 3 beat-num)) (weak-hat))
-  (at (m (+ 3.5 beat-num)) (weak-hat))
-  (at (m (+ 4 beat-num)) (kick))
-  (at (m (+ 4.25 beat-num)) (weak-hat))
-  (at (m (+ 5.00 beat-num)) (weak-hat))
-  (at (m (+ 6 beat-num)) (hat))
-  (at (m (+ 6.25 beat-num)) (weak-hat))
-  (at (m (+ 6.0 beat-num)) (weak-hat))
-  (at (m (+ 7.00 beat-num)) (weak-hat))
-  (apply-at (m (+ 8 beat-num)) phat-beats m (+ 8 beat-num) []))
+;; (defn nerd-quote []
+;;   (let [q (random-nerd-quote)]
+;;     )
+;;     (nerd-quote-synth)))
+
+;; (defn nerd-quote-loop [m beat-num]
+;;   (at (m (+ 0 beat-num)) (nerd-quote))
+;;   (let [next-t (+ beat-num 5)]
+;;     (apply-by next-t #'nerd-quote-loop [m next-t]))
+;;   )
+
+;; (nerd-quote-loop metro (metro))
+;; (stop)
+;; (nerd-quote)
 
 (definst dubstep [freq 100 wobble-freq 5]
   (let [sweep (lin-exp (lf-saw wobble-freq) -1 1 40 5000)
@@ -73,6 +71,47 @@
 (def metro (metronome 120))
 (def notes (vec (map (comp midi->hz note) [:g1 :g2 :d2 :f2 :c2 :c3 :bb1 :bb2
                                            :a1 :a2 :e2 :g2 :d2 :d3 :c2 :c3])))
+
+(def mind-bike (load-sample "/Users/mfeltner/code/feltnerm/replovin/live/samples/mind-bike.wav"))
+(def all-information (load-sample "/Users/mfeltner/code/feltnerm/replovin/live/samples/all-information.wav"))
+(def tool-builders (load-sample "/Users/mfeltner/code/feltnerm/replovin/live/samples/tool-builders.wav"))
+(def information-scope(load-sample "/Users/mfeltner/code/feltnerm/replovin/live/samples/information-scope.wav"))
+(def nerd-quotes [mind-bike all-information tool-builders information-scope])
+
+(defn random-nerd-quote []
+  (repeatedly 2 #(rand-nth nerd-quotes)))
+
+(defn phat-beats [m beat-num]
+  (at (m (+ 0 beat-num)) (kick))
+  (at (m (+ 0.5 beat-num)) (weak-hat))
+  (at (m (+ 1.00 beat-num)) (weak-hat))
+  (at (m (+ 1.50 beat-num)) (weak-hat))
+  (at (m (+ 2 beat-num)) (hat))
+  (at (m (+ 3 beat-num)) (weak-hat))
+  (at (m (+ 3.5 beat-num)) (weak-hat))
+  (at (m (+ 4 beat-num)) (kick))
+  (at (m (+ 4.25 beat-num)) (weak-hat))
+  (at (m (+ 5.00 beat-num)) (weak-hat))
+  (at (m (+ 6 beat-num)) (hat))
+  (at (m (+ 6.25 beat-num)) (weak-hat))
+  (at (m (+ 6.0 beat-num)) (weak-hat))
+  (at (m (+ 7.00 beat-num)) (weak-hat))
+  (apply-at (m (+ 8 beat-num)) phat-beats m (+ 8 beat-num) []))
+
+(comment
+  (metro-bpm metro 180)
+  )
+
+(defsynth nerd-quote-synth []
+  (let [q (random-nerd-quote)
+        quote (play-buf 2 q)]
+    (out 0 [quote])))
+
+(defn nerd-quoter [m beat-num]
+  (at (m (+ 0 beat-num)) (nerd-quote-synth))
+
+  (apply-at (m (+ 8 beat-num)) nerd-quoter m (+ 8 beat-num) []) )
+
 (comment
   (do
     (metro :bpm 180)
@@ -80,6 +119,8 @@
     (dubstep) ;; start the synth, so that bass and wobble can change it
     (bass metro (metro) (cycle notes))
     (wobble metro (metro))
+    (nerd-quoter metro (metro))
+    (nerd-quote-synth)
     )
   )
 
@@ -87,74 +128,14 @@
   (start-shadertone "throb")
   (t/stop)
   (start-shadertone "spectrograph")
-)
+  )
 
 (comment
-  (metro-bpm metro 120)
+  (metro-bpm metro 100000000)
+  (metro-bpm metro 80)
 )
 
 (comment
   (stop!)
 )
 
-(comment
-  ;; drums
-  ;; piano
-  (defn play-chord [a-chord]
-    (doseq [note a-chord] (piano/piano note)))
-
-  (defn lil-piano-melody
-    []
-    (let [t (now)]
-      (at t          (play-chord (chord :D3 :major7)))
-      (at (+ 1000 t) (play-chord (chord :A3 :major)))
-      (at (+ 2000 t) (play-chord (chord :A3 :major7)))
-      (at (+ 3000 t) (play-chord (chord :F3 :major7)))))
-
-  (definst beep [note 60]
-    (let [sound-src (sin-osc (midicps note))
-          env (env-gen (perc 0.01 1.0) :action FREE)]
-      (* sound-src env)))
-
-  (defsynth pad1 [freq 110 amp 1 gate 1 out-bus 0]
-    (out out-bus
-         (* (saw [freq (* freq 0.55)])
-            (env-gen (adsr 0.01 0.1 0.7 0.5) :gate gate :action FREE))))
-
-
-  ;; graveyard?
-  (house-and-piano-loop (m))
-  (defn house-and-piano-loop
-    [beat]
-    (let [next-beat (inc beat)]
-
-      ;; kick drum
-      (at (m beat)
-          (drum/quick-kick :amp 0.5)
-          (if (zero? (mod beat 2))
-            (drum/open-hat :amp 0.1)))
-
-      ;; clapper
-      (at (m (+ 0.5 beat))
-          (drum/haziti-clap :decay 1.05 :amp 0.3))
-
-      ;; high-hat
-      (when (zero? (mod beat 3))
-        (at (m (+ 0.75 beat))
-            (drum/soft-hat :decay 0.03 :amp 0.2)))
-
-      ;; high-hat 2
-      (when (zero? (mod beat 8))
-        (at (m (+ 1.25 beat))
-            (drum/soft-hat :decay 0.03)))
-
-      ;; piano?
-      (when (zero? (mod (- 1 beat) 16))
-        (at (m (+ 1.25 beat))
-            (lil-piano-melody)))
-
-      ;; recurse
-      (apply-by (m next-beat) #'sequencer [next-beat])
-      ;; (apply-at (m (+ 4 beat)) sequencer (+ 4 beat) [])
-      ))
-)
