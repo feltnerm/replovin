@@ -1,8 +1,8 @@
 (ns user)
 
 (println "User!")
-(defn live
+(defn repl
   "Load and switch to the 'live' namespace."
   []
-  (require 'live)
-  (in-ns 'live))
+  (require 'repl)
+  (in-ns 'repl))
