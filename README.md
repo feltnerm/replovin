@@ -7,7 +7,7 @@ Link to performance: https://www.youtube.com/watch?v=o75qOojhlLc
 
 ## Installation
 
-Download from http://github.com/feltnerm/reploving.
+Download from http://github.com/feltnerm/replovin.
 
 ## Usage
 
