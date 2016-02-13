@@ -3,6 +3,8 @@
 
 @WidenEnterprises 48Create Project with Overtone and Shadertone.
 
+Link to performance: https://www.youtube.com/watch?v=o75qOojhlLc
+
 ## Installation
 
 Download from http://github.com/feltnerm/reploving.
